@@ -20,7 +20,7 @@ script used to launch tmux sessions.
 ### Clone the Repository
 
 ```sh
-git clone https://github.com/yourusername/sesh.git
+git clone https://github.com/jcnnll/sesh.git
 cd sesh
 ```
 
