@@ -70,7 +70,7 @@ func launchInteractive() {
 	}
 
 	if err := launchTmux(projectPath); err != nil {
-		fmt.Printf("Failed to launch tmux session: %v\n", err)
+		fmt.Printf("Failed to launch tmux session: (Path: %s)%v\n", projectPath, err)
 		os.Exit(1)
 	}
 }
@@ -175,12 +175,16 @@ func launchTmux(projectPath string) error {
 		_ = exec.Command("tmux", "set-option", "-t", sessionName, "set-titles-string", "#W").Run()
 	}
 
-	// switch to session
-	switchCmd := exec.Command("tmux", "switch-client", "-t", sessionName)
-	switchCmd.Stdin = os.Stdin
-	switchCmd.Stdout = os.Stdout
-	switchCmd.Stderr = os.Stderr
-	return switchCmd.Run()
+	var cmd *exec.Cmd
+	if os.Getenv("TMUX") != "" {
+		cmd = exec.Command("tmux", "switch-client", "-t", sessionName)
+	} else {
+		cmd = exec.Command("tmux", "attach-session", "-t", sessionName)
+	}
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	return cmd.Run()
 }
 
 func printHelp() {
