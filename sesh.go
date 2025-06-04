@@ -165,7 +165,7 @@ func launchTmux(projectPath string) error {
 			return fmt.Errorf("failed to creste tmux session: %w", err)
 		}
 		// Terminal window
-		createTerminal := exec.Command("tmux", "new-window", "-t", sessionName, "-c", projectPath, "-n", "termilal")
+		createTerminal := exec.Command("tmux", "new-window", "-t", sessionName, "-c", projectPath, "-n", "terminal")
 		if err := createTerminal.Run(); err != nil {
 			return fmt.Errorf("failed to create terminal window: %w", err)
 		}
